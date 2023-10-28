@@ -30,7 +30,7 @@ class homePage extends StatelessWidget {
           ),
 
 
-          FilledButton(
+          OutlinedButton(
             child: const Text('Confirm'),
             onPressed: () {
               // Navigate to second route when tapped.

@@ -21,13 +21,15 @@ class actionPage extends StatelessWidget {
             // Book A day
             margin: const EdgeInsets.all(20),
             alignment: Alignment.center,
-            child: FilledButton(
+            child: OutlinedButton.icon(
+              icon: const Icon(CupertinoIcons.calendar),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => const bookingPage()),
                 );
               },
-              child: Text("Book a wash"),
+              label: const Text("Book a slot"),
+
             ),
           ),
           // Start Washing
@@ -35,13 +37,14 @@ class actionPage extends StatelessWidget {
             // Book A day
             alignment: Alignment.center,
             margin: const EdgeInsets.all(20),
-            child: FilledButton(
+            child: OutlinedButton.icon(
+              icon: const Icon(Icons.water),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => const startNowPage()),
                 );
               },
-              child: Text("Start Washing"),
+              label: const Text("Wash now"),
             ),
           ),
         ],
