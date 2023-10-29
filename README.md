@@ -1,4 +1,4 @@
-# flutter_application_test
+# mobile_app
 
 A new Flutter project.
 
