@@ -29,3 +29,7 @@ class Reservation {
     );
   }
 }
+
+class Reservations {
+  final res = List<Reservation>;
+}

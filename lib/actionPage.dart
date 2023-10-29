@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_app/bookingPage.dart';
 import 'package:mobile_app/models/Machine.dart';
+import 'package:mobile_app/models/Reservation.dart';
 import 'package:mobile_app/startNowPage.dart';
 
 class actionPage extends StatelessWidget {
@@ -12,7 +14,7 @@ class actionPage extends StatelessWidget {
   final String room;
 
   Future<Machine> fetchMachine() async {
-    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+    final response = await http.get(Uri.parse('https://api.iperka.com/machines'));
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -24,6 +26,21 @@ class actionPage extends StatelessWidget {
       throw Exception('Failed to load album');
     }
   }
+
+  Future<Reservation> fetchEvents() async {
+    final response = await http.get(Uri.parse('https://api.iperka.com/reservations'));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return Reservation.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,9 +57,10 @@ class actionPage extends StatelessWidget {
             child: OutlinedButton.icon(
               icon: const Icon(CupertinoIcons.calendar),
               onPressed: () {
-
+                var machine = fetchMachine();
+                var event = fetchEvents();
                 Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => const bookingPage()),
+                    builder: (context) => bookingPage(machines: machine, events: event)),
                 );
               },
               label: const Text("Book a slot"),
@@ -58,7 +76,7 @@ class actionPage extends StatelessWidget {
               icon: const Icon(Icons.water),
               onPressed: () {
                 var machine = fetchMachine();
-                var event = fetchMachine();
+                var event = fetchEvents();
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => startNowPage(machines: machine, events: event)),
                 );
